@@ -1,0 +1,38 @@
+<!-- notificaciones/notificadores/templates/notificadores/confirmar_eliminar.html -->
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Notificador{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <div style="font-size: 4rem;">⚠️</div>
+                    </div>
+                    <h5 class="mb-3">¿Eliminar Notificador?</h5>
+                    <p class="text-muted mb-4">
+                        ¿Estás seguro de eliminar a <strong>{{ notificador.nombre_completo }}</strong>?
+                        <br>
+                        <small class="text-danger">Esta acción no se puede deshacer.</small>
+                    </p>
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="{% url 'notificadores:lista_notificadores' %}" class="btn btn-outline-secondary px-4">
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger px-4">
+                                Sí, Eliminar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="bi bi-speedometer2"></i> Panel de Control</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="alert alert-info">
+                                <i class="bi bi-person-circle"></i> 
+                                <strong>Bienvenido, {{ user.username }}</strong><br>
+                                Rol: {{ user.get_rol_display }}<br>
+                                Área: {{ user.area.nombre|default:"Global" }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-journal-text display-4 text-primary"></i>
+                                    <h5>Bitácora</h5>
+                                    <a href="{% url 'bitacora:lista_bitacora' %}" class="btn btn-sm btn-primary">
+                                        Ver registros
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-people display-4 text-primary"></i>
+                                    <h5>Notificadores</h5>
+                                    <a href="{% url 'notificadores:lista_notificadores' %}" class="btn btn-sm btn-primary">
+                                        Ver notificadores
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if user.rol == 'developer' or user.rol == 'admin' or user.rol == 'coordinador' or user.rol == 'secretaria' %}
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-building display-4 text-primary"></i>
+                                    <h5>Áreas</h5>
+                                    <a href="{% url 'areas:lista_areas' %}" class="btn btn-sm btn-primary">
+                                        Ver áreas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

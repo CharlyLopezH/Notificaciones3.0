@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Notificadores{% endblock %}
+
+{% block content %}
+<div class="container bg-white p-4 rounded shadow-sm border">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="m-0">
+            <i class="bi bi-people"></i> Listado de Notificadores
+        </h4>
+        <a href="{% url 'notificadores:crear' %}" class="btn btn-sm btn-primary px-3">
+            <i class="bi bi-plus-circle me-1"></i> Nuevo Notificador
+        </a>
+    </div>
+
+    <!-- Tabla de Notificadores -->
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th>Área / Adscripción</th>
+                    <th>Tel. Emergencia</th>
+                    <th>Código Checador</th>
+                    <th>Registro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notificador in notificadores %}
+                <tr>
+                    <td class="fw-bold text-muted">{{ notificador.id }}</td>
+                    <td class="custom-nombre-cell">
+                        <div class="d-flex align-items-center gap-2">
+                            {% if notificador.fotografia %}
+                                <img src="{{ notificador.fotografia.url }}" alt="Foto" style="width: 45px; height: 45px; object-fit: cover; border-radius: 50%;">
+                            {% else %}
+                                <div class="user-avatar-small">
+                                    {{ notificador.nombres|first }}{{ notificador.apellido1|first }}
+                                </div>
+                            {% endif %}
+                            <span class="text-primary-soft text-uppercase">{{ notificador.nombre_completo }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="custom-badge-area">{{ notificador.area.nombre_corto|default:notificador.area.nombre }}</span>
+                    </td>
+                    <td class="success">
+                       <span class="text-primary-soft text-uppercase">  {{ notificador.telefono_emergencia|default:"—" }} </span>
+                    </td>
+                    <td class="text-muted">
+                        {{ notificador.Codigo_Checador|default:"—" }}
+                    </td>
+                    <td class="text-muted small">
+                        {{ notificador.fecha_registro|date:"d/m/Y" }}
+                    </td>
+                    <td>
+                        <a href="{% url 'notificadores:editar' notificador.pk %}" class="btn custom-btn-icon custom-btn-warning" title="Editar">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="{% url 'notificadores:eliminar' notificador.pk %}" class="btn custom-btn-icon custom-btn-danger" title="Eliminar">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="custom-empty-message">
+                        <i class="bi bi-inbox me-2"></i>No hay notificadores registrados en el sistema.
+                        <a href="{% url 'notificadores:crear' %}" class="btn btn-sm btn-link">Crear el primero</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

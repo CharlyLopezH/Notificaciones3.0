@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container bg-white p-4 rounded shadow-sm border">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="m-0">🏢 Catálogo de Áreas / Adscripciones</h4>        
+    {# Solo mostrar botón "Nueva" si NO es secretaria #}
+    {% if user.rol != 'secretaria' %}
+    <a href="{% url 'areas:crear' %}" class="btn btn-sm btn-primary px-3">
+        <i class="bi bi-plus-circle me-1"></i> Nueva
+    </a>
+    {% endif %}
+    </div>
+
+    <!-- Tabla de áreas -->
+<div class="custom-table-container">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Adscripción / Área</th>
+                <th>Nombre Corto</th>
+                <th>Extensión Telefónica</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for area in areas %}
+            <tr>
+                <td class="fw-bold text-muted">{{ area.id }}</td>
+                <td class="text-primary-soft text-uppercase">{{ area.nombre }}</td>
+                <td class=" text-muted text-uppercase"><span>{{ area.nombre_corto }}</span></td>
+                <td class="text-muted">{{ area.extension_telefono|default:"—" }}</td>
+                <td class="text-center">
+                    <a href="{% url 'areas:editar' area.pk %}" class="btn custom-btn-icon custom-btn-warning" title="Editar">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'areas:eliminar' area.pk %}" class="btn custom-btn-icon custom-btn-danger" title="Eliminar">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="custom-empty-message">
+                    <i class="bi bi-inbox me-2"></i>No hay áreas registradas en el sistema.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,187 @@
+<!-- notificaciones/bitacora/templates/bitacora/form_bitacora.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-journal-text"></i> {{ titulo }}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.oficio_memo.id_for_label }}" class="form-label">
+                                    Oficio/Memo *
+                                </label>
+                                {{ form.oficio_memo }}
+                                {% if form.oficio_memo.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.oficio_memo.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.situacion.id_for_label }}" class="form-label">
+                                    Situación *
+                                </label>
+                                {{ form.situacion }}
+                                {% if form.situacion.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.situacion.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.destinatario.id_for_label }}" class="form-label">
+                                    Destinatario *
+                                </label>
+                                {{ form.destinatario }}
+                                {% if form.destinatario.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.destinatario.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.notificador.id_for_label }}" class="form-label">
+                                    Notificador *
+                                </label>
+                                {{ form.notificador }}
+                                {% if form.notificador.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.notificador.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.fecha_bitacora.id_for_label }}" class="form-label">
+                                    Fecha de Bitácora 
+                                    <small class="text-muted fw-normal">(sólo lectura)</small>
+                                </label>
+                                {{ form.fecha_bitacora }}
+                                {% if form.fecha_bitacora.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.fecha_bitacora.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.fecha_termino.id_for_label }}" class="form-label">
+                                    Fecha de Término *
+                                </label>
+                                {{ form.fecha_termino }}
+                                {% if form.fecha_termino.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.fecha_termino.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.expediente_asunto.id_for_label }}" class="form-label">
+                                Expediente / Asunto *
+                            </label>
+                            {{ form.expediente_asunto }}
+                            {% if form.expediente_asunto.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.expediente_asunto.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.fecha_acuse.id_for_label }}" class="form-label">
+                                    Fecha de Acuse
+                                </label>
+                                {{ form.fecha_acuse }}
+                                {% if form.fecha_acuse.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.fecha_acuse.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                                                          
+                            
+<!-- PDF Adjunto - Versión simple pero efectiva -->
+
+
+<div class="mb-3">
+    <!-- Label limpio con ícono -->
+    <label for="{{ form.pdf_adjunto.id_for_label }}" class="form-label fw-semibold text-secondary">
+        <i class="bi bi-file-pdf text-danger"></i> PDF Adjunto
+    </label>        
+    
+    <!-- Input estilizado con la clase nativa de Bootstrap para archivos -->
+    <div class="input-group">
+        <input type="file" 
+               name="{{ form.pdf_adjunto.name }}" 
+               id="{{ form.pdf_adjunto.id_for_label }}" 
+               class="form-control {% if form.pdf_adjunto.errors %}is-invalid{% endif %}" 
+               accept=".pdf">
+    </div>
+    
+    <!-- Mensaje de error -->
+    {% if form.pdf_adjunto.errors %}
+    <div class="invalid-feedback d-block mt-1">
+        {{ form.pdf_adjunto.errors.0 }}
+    </div>
+    {% endif %}        
+    
+    <!-- Texto de ayuda sutil -->
+    <div class="form-text small opacity-75 mt-1">
+        <i class="bi bi-info-circle"></i> Solo archivos PDF (máx. 10MB)
+    </div>
+</div>
+
+
+
+
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Nota:</strong> Los campos marcados con * son obligatorios.
+                            El estado visual se calcula automáticamente según la situación y fechas.
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'bitacora:lista_bitacora' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> {{ boton_texto }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

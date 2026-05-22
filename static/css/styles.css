@@ -1,0 +1,388 @@
+
+/* 1. Forzar la tipografía Roboto y el tamaño de fuente en toda la tabla y sus celdas */
+table.table-custom-compact,
+table.table-custom-compact th,
+table.table-custom-compact td {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 9pt !important; /* Letra más pequeña */
+}
+
+
+/* 3. Forzar celdas más compactas reduciendo el padding de Bootstrap */
+table.table-custom-compact tbody td {
+    padding: 4px 6px !important;
+    vertical-align: middle !important;
+}
+
+/* 4. Suavizar el efecto hover al pasar el cursor sobre las filas */
+table.table-custom-compact.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+    transition: background-color 0.15s ease;
+}
+
+
+/* Prueba de comunicación temporal */
+body {
+    background-color:whitesmoke !important; /* Esto pintará el fondo de color blanco-humo */
+}
+
+/* .navbar {
+    background-color: #4483c3 !important;
+    height: 60px !important;
+} */
+
+.table-responsive {
+    padding: 6px 8px !important;
+    vertical-align: middle !important;   
+    /* background-color: #3d648b !important; */
+    color: #4483c3 !important;
+    font-weight: 500 !important;
+    border-bottom: 2px solid #495057 !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 8px !important;
+}
+
+/* Conserva el fondo negro nativo de Bootstrap pero extiende sus propiedades */
+.table-dark th {
+    background-color: #3d648b;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12 pt !important;      /* Tamaño letra para el encabezado */
+    font-weight: 500 !important;        /* Grosor medio nítido */
+    text-transform: uppercase !important;/* Forzar mayúsculas minimalistas */
+    letter-spacing: 0.5px !important;   /* Separación elegante entre letras */
+    padding: 8px 8px !important;        /* Compactar el alto del encabezado */
+}
+
+/* Características del navbar en base.html */
+.custom-bg-success {
+    background-color: #5a9bd5 !important;
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.2rem !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+}
+
+/* Aumentar tamaño de la marca */
+.custom-bg-success .navbar-brand {
+    font-size: 1.2rem !important;
+}
+
+/* Aumentar tamaño de los links */
+.custom-bg-success .nav-link {
+    font-size: 1rem !important;
+    padding: 0.3rem .8rem !important;
+}
+
+/* Ajustar el contenido para centrado vertical */
+.custom-bg-success .container {
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+}
+
+/* styles.css */
+
+/* Tabla personalizada */
+.custom-table {
+    font-family: 'Roboto', sans-serif;
+    font-size: 9pt;
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-table thead th {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 10px;
+    border-bottom: 2px solid #6f42c1;
+    vertical-align: middle;
+}
+
+.custom-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.custom-table tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Badge personalizado */
+.custom-badge {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 8pt;
+    font-weight: 500;
+    color: white;
+    display: inline-block;
+}
+
+/* Botones de acción personalizados */
+.custom-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    margin: 0 2px;
+    border-radius: 6px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.custom-btn-icon i {
+    font-size: 12px;
+}
+
+.custom-btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.custom-btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    border: none;
+    color: #212529;
+}
+
+.custom-btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    color: white;
+}
+
+/* Controla color */
+.custom-table thead th {
+    background: #2c3e50;
+    color: rgb(255, 255, 255);
+    font-weight: 400;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 4px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+/* Titulo en el navbar principal */
+/* En tu styles.css */
+.navbar-brand {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.02);
+}
+
+
+/* En tu styles.css */
+/* Estilo para los dropdowns */
+.dropdown-menu {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    margin-top: 8px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(90deg, #6f42c1 0%, #5a32a3 100%);
+    color: white !important;
+    padding-left: 25px;
+}
+
+.dropdown-item i {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.dropdown-divider {
+    margin: 8px 0;
+    background-color: #e9ecef;
+}
+
+/* Flecha del dropdown animada */
+.dropdown-toggle::after {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+/* Estilo para el nav-link con dropdown */
+.navbar .dropdown-toggle {
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.navbar .dropdown-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Iconos en los dropdowns si no tienes bootstrap-icons */
+.dropdown-item i {
+    display: inline-block;
+    width: 20px;
+    margin-right: 8px;
+    font-style: normal;
+}
+
+/* Alteración del efecto del link en el dropdown*/
+#userDropdown {
+    text-decoration: none !important;
+}
+
+#userDropdown:hover,
+#userDropdown:focus,
+#userDropdown:active {
+    text-decoration: none !important;
+}
+
+/* styles para los pills de la tabla de bitácora de notis */
+.badge {
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+.bg-primary { background-color: #0d6efd !important; }  /* Asignada - Azul */
+.bg-info { background-color: #0dcaf0 !important; }     /* En Ruta - Celeste */
+.bg-warning { background-color: #ffc107 !important; color: #000; }  /* Expirando - Naranja */
+.bg-danger { background-color: #dc3545 !important; }   /* Expirada - Rojo */
+.bg-success { background-color: #198754 !important; }  /* Entregada - Verde */
+
+/* Estilo para input de foto */
+.foto-input {
+    width: 100%;
+    padding: 0.4rem;
+    font-size: 0.875rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    background-color: #f8f9fa;
+}
+
+.foto-input:hover {
+    background-color: #e9ecef;
+}
+
+.photo-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+
+/* Texto azul suave */
+.text-primary-soft {
+    color: #5a9bd5;  /* Azul suave */
+    /* Alternativas: */
+    /* color: #6c9ebf; */
+    /* color: #7fb4d0; */
+    /* color: #4a90e2; */
+}
+
+/* Texto en mayúsculas */
+.text-uppercase {
+    text-transform: uppercase;    
+}
+
+/* Texto azul suave */
+.text-primary-soft {
+    color: #5a9bd5;  /* Azul suave */
+    /* Alternativas: */
+    /* color: #6c9ebf; */
+    /* color: #7fb4d0; */
+    /* color: #4a90e2; */
+}
+
+/* Badge estilo outline (como los botones de filtro) */
+.custom-badge-outline {
+    background-color: transparent !important;
+    border: 1.5px solid;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    width: 95px;            /* Ancho fijo exacto */
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si el texto es más largo, pone "..." */
+}
+
+/* Colores específicos */
+.custom-badge-outline.bg-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.custom-badge-outline.bg-info {
+    color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+.custom-badge-outline.bg-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.custom-badge-outline.bg-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.custom-badge-outline.bg-success {
+    color: #198754;
+    border-color: #198754;
+}
+
+.custom-badge-outline.bg-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}

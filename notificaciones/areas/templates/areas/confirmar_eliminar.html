@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Área</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>body { font-family: 'Roboto', sans-serif; font-size: 0.85rem; }</style>
+</head>
+<body class="bg-light p-4">
+    <div class="container bg-white p-4 rounded shadow-sm border text-center" style="max-width: 500px; margin-top: 10%;">
+        <h5 class="text-danger">⚠️ ¿Confirmas la eliminación?</h5>
+        <p class="text-muted mt-3">Estás a punto de borrar el área <strong>{{ area.nombre }} ({{ area.nombre_corto }})</strong> de manera permanente.</p>
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{% url 'areas:lista' %}" class="btn btn-sm btn-outline-secondary px-3">Cancelar</a>
+                <button type="submit" class="btn btn-sm btn-danger px-4">Sí, Eliminar Registro</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

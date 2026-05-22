@@ -1,0 +1,206 @@
+<!-- notificaciones/bitacora/templates/bitacora/detalle_bitacora.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-journal-text"></i> {{ titulo }}
+                    </h3>
+                    <span class="badge {{ color_estado }} px-3 py-2 rounded-pill fs-6">
+                        {{ texto_estado }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Columna izquierda -->
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th width="35%">Oficio/Memo:</th>
+                                    <td><strong>{{ registro.oficio_memo }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Destinatario:</th>
+                                    <td>{{ registro.destinatario }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Expediente/Asunto:</th>
+                                    <td>{{ registro.expediente_asunto|linebreaks }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Área:</th>
+                                    <td>{{ registro.area.nombre }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Notificador:</th>
+                                    <td>
+                                        {{ registro.notificador.nombre_completo }}
+                                        {% if registro.notificador.telefono_emergencia %}
+                                            <br>
+                                            <small class="text-muted">
+                                                <i class="bi bi-telephone"></i> {{ registro.notificador.telefono_emergencia }}
+                                            </small>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Columna derecha -->
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th width="35%">Fecha Bitácora:</th>
+                                    <td>{{ registro.fecha_bitacora|date:"d/m/Y" }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha Término:</th>
+                                    <td>
+                                        {{ registro.fecha_termino|date:"d/m/Y" }}
+                                        {% if registro.dias_restantes > 0 %}
+                                            <span class="badge bg-secondary ms-2">{{ registro.dias_restantes }} días restantes</span>
+                                        {% elif registro.esta_retrasada %}
+                                            <span class="badge bg-danger ms-2">Retrasada</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha Acuse:</th>
+                                    <td>
+                                        {% if registro.fecha_acuse %}
+                                            {{ registro.fecha_acuse|date:"d/m/Y" }}
+                                            <span class="badge bg-success ms-2">Entregada</span>
+                                        {% else %}
+                                            <span class="text-muted">Pendiente de entrega</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha Registro:</th>
+                                    <td>{{ registro.fecha_registro|date:"d/m/Y H:i" }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Capturó:</th>
+                                    <td>{{ registro.capturo }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Estado Ruta:</th>
+                                    <td>
+                                        {% if registro.en_ruta %}
+                                            <span class="badge bg-info">
+                                                <i class="bi bi-truck"></i> En ruta
+                                            </span>
+                                            {% if registro.fecha_salida_ruta %}
+                                                <br>
+                                                <small>Desde: {{ registro.fecha_salida_ruta|date:"d/m/Y H:i" }}</small>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="badge bg-secondary">No iniciada</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- PDF Adjunto -->
+                    {% if registro.pdf_adjunto %}
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <i class="bi bi-file-pdf fs-4 me-2"></i>
+                                <strong>Documento adjunto:</strong>
+                                <a href="{{ registro.pdf_adjunto.url }}" target="_blank" class="alert-link">
+                                    {{ registro.pdf_adjunto.name|cut:"pdfs/" }}
+                                </a>
+                                <button onclick="window.open('{{ registro.pdf_adjunto.url }}', '_blank')" class="btn btn-sm btn-danger ms-2">
+                                    <i class="bi bi-eye"></i> Ver PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Línea de tiempo de estados -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5><i class="bi bi-clock-history"></i> Línea de tiempo</h5>
+                            <div class="progress mb-3" style="height: 30px;">
+                                {% if registro.fecha_acuse %}
+                                <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                    ✅ Entregada
+                                </div>
+                                {% elif registro.en_ruta %}
+                                <div class="progress-bar bg-info" style="width: 66%" role="progressbar">
+                                    🚚 En Ruta
+                                </div>
+                                <div class="progress-bar bg-secondary" style="width: 34%" role="progressbar">
+                                    Pendiente
+                                </div>
+                                {% elif registro.get_estado == 'expirada' %}
+                                <div class="progress-bar bg-danger" style="width: 100%" role="progressbar">
+                                    ❌ Expirada
+                                </div>
+                                {% else %}
+                                <div class="progress-bar bg-primary" style="width: 33%" role="progressbar">
+                                    📋 Asignada
+                                </div>
+                                <div class="progress-bar bg-secondary" style="width: 67%" role="progressbar">
+                                    Pendiente
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'bitacora:lista_bitacora' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                        <div>
+                            {% if not registro.fecha_acuse %}
+                                {% if not registro.en_ruta %}
+                                <form method="post" action="{% url 'bitacora:marcar_ruta' registro.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-info">
+                                        <i class="bi bi-truck"></i> Marcar En Ruta
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form method="post" action="{% url 'bitacora:cancelar_ruta' registro.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-secondary">
+                                        <i class="bi bi-x-circle"></i> Cancelar Ruta
+                                    </button>
+                                </form>
+                                {% endif %}
+                                
+                                <form method="post" action="{% url 'bitacora:marcar_entregada' registro.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-check-circle"></i> Marcar Entregada
+                                    </button>
+                                </form>
+                            {% endif %}
+                            
+                            <a href="{% url 'bitacora:editar' registro.pk %}" class="btn btn-warning">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a href="{% url 'bitacora:eliminar' registro.pk %}" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
