@@ -4,6 +4,26 @@ from django.db import models
 from django.db import models
 
 class Area(models.Model):
+
+    def tiene_dependencias(self):
+        """Verifica si el área tiene registros relacionados"""
+        from notificaciones.notificadores.models import Notificador
+        return Notificador.objects.filter(area=self).exists()
+
+    def tiene_notificadores(self):
+        """Verifica si el área tiene notificadores asociados"""
+        from notificaciones.notificadores.models import Notificador
+        return Notificador.objects.filter(area=self).exists()
+        
+        
+        # # Verificar notificadores asociados
+        # if Notificador.objects.filter(area=self).exists():
+        #     return True
+        # # Verificar bitácoras asociadas (a través de notificador)
+        # if Bitacora.objects.filter(notificador__area=self).exists():
+        #     return True
+        # return False
+
     # Django creates 'id' as an auto-incrementing integer Primary Key by default
     nombre = models.CharField(max_length=200, unique=True)
     nombre_corto = models.CharField(max_length=50, db_column='NombreCorto')

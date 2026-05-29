@@ -128,7 +128,7 @@
                     {% endif %}
                     
                     <!-- Línea de tiempo de estados -->
-                    <div class="row mt-4">
+                    <!-- <div class="row mt-4">
                         <div class="col-12">
                             <h5><i class="bi bi-clock-history"></i> Línea de tiempo</h5>
                             <div class="progress mb-3" style="height: 30px;">
@@ -157,43 +157,19 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-between">
                         <a href="{% url 'bitacora:lista_bitacora' %}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Volver
+                            <i class="bi bi-arrow-left"></i> Bitácora
                         </a>
                         <div>
-                            {% if not registro.fecha_acuse %}
-                                {% if not registro.en_ruta %}
-                                <form method="post" action="{% url 'bitacora:marcar_ruta' registro.pk %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-info">
-                                        <i class="bi bi-truck"></i> Marcar En Ruta
-                                    </button>
-                                </form>
-                                {% else %}
-                                <form method="post" action="{% url 'bitacora:cancelar_ruta' registro.pk %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-secondary">
-                                        <i class="bi bi-x-circle"></i> Cancelar Ruta
-                                    </button>
-                                </form>
-                                {% endif %}
-                                
-                                <form method="post" action="{% url 'bitacora:marcar_entregada' registro.pk %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="bi bi-check-circle"></i> Marcar Entregada
-                                    </button>
-                                </form>
-                            {% endif %}
                             
                             <a href="{% url 'bitacora:editar' registro.pk %}" class="btn btn-warning">
-                                <i class="bi bi-pencil"></i> Editar
+                                <i class="bi bi-arrow-repeat"></i> Actualizar
                             </a>
-                            <a href="{% url 'bitacora:eliminar' registro.pk %}" class="btn btn-danger">
+                            <a href="{% url 'bitacora:eliminar' registro.pk %}" class="btn btn-danger disabled">
                                 <i class="bi bi-trash"></i> Eliminar
                             </a>
                         </div>

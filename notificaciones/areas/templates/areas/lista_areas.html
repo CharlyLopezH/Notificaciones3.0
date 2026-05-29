@@ -14,7 +14,8 @@
 
     <!-- Tabla de áreas -->
 <div class="custom-table-container">
-    <table class="custom-table">
+    <!-- <table class="custom-table"> -->
+        <table class="custom-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -35,9 +36,23 @@
                     <a href="{% url 'areas:editar' area.pk %}" class="btn custom-btn-icon custom-btn-warning" title="Editar">
                         <i class="bi bi-pencil"></i>
                     </a>
-                    <a href="{% url 'areas:eliminar' area.pk %}" class="btn custom-btn-icon custom-btn-danger" title="Eliminar">
+<!-- 
+                <a href="{% url 'areas:eliminar' area.pk %}" class="btn custom-btn-icon custom-btn-danger" title="{% if not area.puede_eliminar %}⚠️{{ area.nombre_corto }} tiene notificadores asociados.{% else %}Eliminar área {{ area.nombre_corto }}{% endif %}">
+                  <i class="bi bi-trash"></i>
+                </a> -->
+
+                {% if area.puede_eliminar %}
+                <a href="{% url 'areas:eliminar' area.pk %}" class="btn custom-btn-icon custom-btn-danger" title="Eliminar {{ area.nombre_corto }}">
+                    <i class="bi bi-trash"></i>
+                </a>
+                {% else %}
+                <span title="No se puede eliminar {{ area.nombre_corto }} tiene notificadores asociados">
+                    <button class="btn custom-btn-icon btn-secondary" disabled style="pointer-events: none;">
                         <i class="bi bi-trash"></i>
-                    </a>
+                    </button>
+                </span>
+                {% endif %}
+
                 </td>
             </tr>
             {% empty %}

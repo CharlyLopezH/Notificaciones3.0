@@ -78,26 +78,46 @@
                             {{ registro.get_texto_estado }}
                         </span>
                     </td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group">
-                            {% if registro.pk %}
-                            <a href="{% url 'bitacora:ver' registro.pk %}" class="btn btn-info" title="Ver">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="{% url 'bitacora:editar' registro.pk %}" class="btn btn-warning" title="Editar">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            
-                            <!-- Dropdown para cambiar situación -->
-                                                        
-                            <a href="{% url 'bitacora:eliminar' registro.pk %}" class="btn btn-danger" title="Eliminar">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                            {% else %}
-                            <span class="text-muted">ID inválido</span>
-                            {% endif %}
-                        </div>
-                    </td>
+<td>
+    <div class="btn-group btn-group-sm" role="group">
+        {% if registro.pk %}
+        
+        <!-- Botón VER (siempre habilitado) -->
+        <a href="{% url 'bitacora:ver' registro.pk %}" class="btn btn-info" title="Ver">
+            <i class="bi bi-eye"></i>
+        </a>
+        
+        <!-- Botón EDITAR (deshabilitado para notificador y secretaria) -->
+        <a href="{% if user.rol == 'notificador' or user.rol == 'secretaria' %}#{% else %}{% url 'bitacora:editar' registro.pk %}{% endif %}" 
+           class="btn btn-warning {% if user.rol == 'notificador' or user.rol == 'secretaria' %}disabled{% endif %}" 
+           title="Editar"
+           {% if user.rol == 'notificador' or user.rol == 'secretaria' %}aria-disabled="true" tabindex="-1"{% endif %}>
+            <i class="bi bi-pencil"></i>
+        </a>
+        
+        <!-- Dropdown para cambiar situación (deshabilitado para secretaria) -->
+        
+        <!-- Botón único que abre el formulario de cambio de situación -->
+        <!-- Actualizar situación -->
+<a href="{% url 'bitacora:cambiar_situacion_form' registro.pk %}" 
+   class="btn btn-primary btn-sm" 
+   title="Cambiar Situación">
+    <i class="bi bi-arrow-repeat"></i> 
+</a>
+        
+        <!-- Botón ELIMINAR (deshabilitado para notificador, secretaria y coordinador) -->
+        <a href="{% if user.rol == 'developer' or user.rol == 'admin' %}{% url 'bitacora:eliminar' registro.pk %}{% else %}#{% endif %}" 
+           class="btn btn-danger {% if user.rol != 'developer' and user.rol != 'admin' %}disabled{% endif %}" 
+           title="Eliminar"
+           {% if user.rol != 'developer' and user.rol != 'admin' %}aria-disabled="true" tabindex="-1"{% endif %}>
+            <i class="bi bi-trash"></i>
+        </a>
+        
+        {% else %}
+        <span class="text-muted">ID inválido</span>
+        {% endif %}
+    </div>
+</td>
                 </tr>
                 {% empty %}
                 <tr>

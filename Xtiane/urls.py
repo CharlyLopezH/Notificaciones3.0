@@ -32,7 +32,7 @@ urlpatterns = [
     # Cambia a vista Personalizada
      path('logout/', CustomLogoutView.as_view(), name='logout'),
      path('denegado/', TemplateView.as_view(template_name='denegado.html'), name='denegado'),     
-
+     path('usuarios/', include('usuarios.urls')),  # ← Agregar esta línea
 ]
 
 

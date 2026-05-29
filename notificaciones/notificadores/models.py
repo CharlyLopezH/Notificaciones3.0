@@ -5,7 +5,7 @@ class Notificador(models.Model):
     apellido1 = models.CharField(max_length=100)
     apellido2 = models.CharField(max_length=100)
     telefono_emergencia = models.CharField(max_length=15)
-    Codigo_Checador = models.CharField(max_length=15)
+    Codigo_Checador = models.IntegerField(null=True, blank=True, unique=True)
     fotografia = models.ImageField(upload_to='notificadores/fotos/', null=True, blank=True)    
     fecha_registro = models.DateTimeField(auto_now_add=True)
     # 1-M RELATION: Reserva empleado/notificador a su respectiva área
@@ -25,3 +25,8 @@ class Notificador(models.Model):
 
     def nombre_completo(self):
         return f"{self.apellido1} {self.apellido2} {self.nombres}"
+
+    def tiene_bitacoras(self):
+        """Verifica si el notificador tiene bitácoras asociadas"""
+        from notificaciones.bitacora.models import Bitacora
+        return Bitacora.objects.filter(notificador=self).exists()

@@ -127,3 +127,39 @@ class Bitacora(models.Model):
     def esta_retrasada(self):
         """Indica si la notificación está fuera de término"""
         return self.situacion != self.SITUACION_ENTREGADA and self.fecha_termino < date.today()
+    
+
+
+#  Actualización del modelo para agregar tabla de situaciones
+class SituacionActualiza(models.Model):
+    """Historial de cambios de situación en bitácora"""
+    
+    SITUACIONES = [
+        ('Asignada', 'Asignada'),
+        ('En Ruta', 'En Ruta'),
+        ('Entregada', 'Entregada'),
+        ('Cancelada', 'Cancelada'),
+        ('No Entregada', 'No Entregada'),
+        ('Pendiente', 'Pendiente'),
+    ]
+    
+    bitacora = models.ForeignKey(
+        'Bitacora',
+        on_delete=models.CASCADE,
+        related_name='historial_situaciones'
+    )
+    situacion_anterior = models.CharField(max_length=20, choices=SITUACIONES)
+    situacion_nueva = models.CharField(max_length=20, choices=SITUACIONES)
+    fecha_accion = models.DateTimeField(auto_now_add=True)
+    fecha_real = models.DateField(null=True, blank=True, help_text="Fecha de la actuación (si aplica)")
+    notas = models.TextField(blank=True, null=True, help_text="Observaciones (obligatorio en Cancelada/No Entregada)")
+    notificador_codigo = models.CharField(max_length=15, help_text="Código checador del notificador que realizó el cambio")
+    
+    class Meta:
+        db_table = 'bitacora_situacion_actualiza'
+        ordering = ['-fecha_accion']
+        verbose_name = 'Historial de Situación'
+        verbose_name_plural = 'Historial de Situaciones'
+    
+    def __str__(self):
+        return f"{self.bitacora.oficio_memo} - {self.situacion_anterior} → {self.situacion_nueva} ({self.fecha_accion})"

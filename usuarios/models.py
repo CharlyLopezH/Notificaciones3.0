@@ -14,7 +14,18 @@ class UsuarioPerfil(AbstractUser):
     ]
 
     rol = models.CharField(max_length=20, choices=ROLES_CHOICES, default='notificador')
-    
+
+        # NUEVO CAMPO
+    codigo_checador = models.CharField(max_length=15, unique=False, null=True, blank=True, help_text="Código del empleado notificador")
+
+    # usuarios/models.py - Agrega el campo
+    codigo_checador = models.IntegerField(
+    unique=True, 
+    null=True,      # ← Permite nulos
+    blank=True,     # ← Permite vacío en formularios
+    default=None,   # ← Evita valores automáticos
+    help_text="Código del empleado notificador"
+)
     
     area = models.ForeignKey(
         'areas.Area', 

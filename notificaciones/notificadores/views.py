@@ -6,9 +6,17 @@ from .models import Notificador
 from .forms import NotificadorForm
 from usuarios.decorators import rol_requerido
 
+
 def lista_notificadores(request):
     """Vista para listar todos los notificadores"""
     notificadores = Notificador.objects.select_related('area').all()
+
+    if request.user.rol == 'coordinador' and request.user.area:
+        notificadores = notificadores.filter(area=request.user.area) 
+
+    # Determinar si se puede eliminar cada notificador en la lista (controlar aspecto del botón eliminar)
+    for notificador in notificadores:
+        notificador.puede_eliminar = not notificador.tiene_bitacoras()
     
     context = {
         'titulo': 'Listado de Notificadores',
@@ -62,6 +70,11 @@ def editar_notificador(request, pk):
 def eliminar_notificador(request, pk):
     """Vista para eliminar un notificador"""
     notificador = get_object_or_404(Notificador, pk=pk)
+
+        # Validar que no tenga bitácoras
+    if notificador.tiene_bitacoras():
+        messages.error(request, f'No se puede eliminar "{notificador.nombre_completo}" porque tiene bitácoras asociadas')
+        return redirect('notificadores:lista_notificadores')
     
     if request.method == 'POST':
         nombre = notificador.nombre_completo
